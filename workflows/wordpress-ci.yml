@@ -1,0 +1,21 @@
+name: WordPress CI
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install PHP dependencies
+        run: composer install
+
+      - name: Run PHPCS
+        run: ./vendor/bin/phpcs
