@@ -20,13 +20,10 @@ pipeline {
         //     }
         // }
         
-        stage('Build and Push Go Docker Image') {
+        stage('Build Go Docker Image') {
             steps {
                 script {
                     docker.build('myapp-go')
-                    docker.withRegistry('', DOCKER_REGISTRY_CREDENTIALS) {
-                        docker.image('myapp-go').push('latest')
-                    }
                 }
             }
         }
