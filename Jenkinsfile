@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub
-                    withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
+                    withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'docker login docker.io']) {
                         sh 'docker push myapp-go'
                     }
                 }
