@@ -20,10 +20,13 @@ pipeline {
                         // Build the Docker image
                         sh 'docker build -t myapp-go .'
                         
-                        // Push the Docker image to Docker Hub
-                        withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: 'https://index.docker.io/v1/']) {
-                            sh 'docker push myapp-go'
+                        // Log in to Docker Hub
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                         }
+                        
+                        // Push the Docker image to Docker Hub
+                        sh 'docker push myapp-go'
                     }
                 }
             }
