@@ -6,6 +6,7 @@ pipeline {
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
         DOCKER_IMAGE_TAG = 'latest' // Define the tag for the Docker image
         DOCKER_USERNAME = 'tannuahuja14' // Your Docker Hub username
+        DOCKER_IMAGE_NAME = 'myapp-go' // Your Docker image name
     }
     
     stages {
@@ -21,7 +22,7 @@ pipeline {
                     // Change directory to the 'go' folder
                     dir('go') {
                         // Build the Docker image and tag it with the specified tag
-                        sh "docker build -t myapp-go:${DOCKER_IMAGE_TAG} ."
+                        sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                     }
                 }
             }
@@ -32,7 +33,8 @@ pipeline {
                 script {
                     // Push the Docker image to Docker Hub with the specified tag and your username
                     withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY_URL]) {
-                        sh "docker push ${DOCKER_USERNAME}/myapp-go:${DOCKER_IMAGE_TAG}"
+                        sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                        sh "docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }
