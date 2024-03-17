@@ -12,13 +12,19 @@ pipeline {
             }
         }
         
-        stage('Build and Push Go Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Change directory to the 'go' folder
-                    dir('go') {
-                        // Build the Docker image
-                        sh 'docker build -t myapp-go .'
+                    docker.build('myapp-go')
+                }
+            }
+        }
+        
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_REGISTRY_CREDENTIALS) {
+                        docker.image('myapp-go').push('latest')
                     }
                 }
             }
