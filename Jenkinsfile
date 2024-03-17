@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub with the specified tag
-                    withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'docker login docker.io']) {
+                    withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'https://index.docker.io/v1/']) {
                         sh "docker push myapp-go:${DOCKER_IMAGE_TAG}"
                     }
                 }
