@@ -5,6 +5,7 @@ pipeline {
         DOCKER_REGISTRY_URL = 'https://index.docker.io/v1/'
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
         DOCKER_IMAGE_TAG = 'latest' // Define the tag for the Docker image
+        DOCKER_USERNAME = 'tannuahuja14' // Your Docker Hub username
     }
     
     stages {
@@ -29,9 +30,9 @@ pipeline {
         stage('Push Go Docker Image') {
             steps {
                 script {
-                    // Push the Docker image to Docker Hub with the specified tag
+                    // Push the Docker image to Docker Hub with the specified tag and your username
                     withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS, url: DOCKER_REGISTRY_URL]) {
-                        sh "docker push myapp-go:${DOCKER_IMAGE_TAG}"
+                        sh "docker push ${DOCKER_USERNAME}/myapp-go:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }
