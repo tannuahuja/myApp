@@ -3,7 +3,6 @@ pipeline {
     
     environment {
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
-        // KUBE_CONFIG = credentials('kubernetes-config')
     }
     
     stages {
@@ -13,17 +12,14 @@ pipeline {
             }
         }
         
-        // stage('Lint and Test Go') {
-        //     steps {
-        //         sh 'golangci-lint run ./go'
-        //         sh 'go test ./go'
-        //     }
-        // }
-        
-        stage('Build Go Docker Image') {
+        stage('Build and Push Go Docker Image') {
             steps {
                 script {
-                    docker.build('myapp-go')
+                    // Change directory to the 'go' folder
+                    dir('go') {
+                        // Build the Docker image
+                        sh 'docker build -t myapp-go .'
+                    }
                 }
             }
         }
