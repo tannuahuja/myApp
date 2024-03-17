@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
-        DOCKER_IMAGE_TAG = 'latest' // Define the tag for the Docker image
+        DOCKER_IMAGE_TAG = 'latest' 
     }
     
     stages {
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub with the specified tag
-                    withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'docker login docker.io']) {
+                    withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'https://registry.hub.docker.com']) {
                         sh "docker push myapp-go:${DOCKER_IMAGE_TAG}"
                     }
                 }
