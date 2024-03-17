@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
+        DOCKER_REGISTRY_CREDENTIALS = 'docker-hub-credentials'
     }
     
     stages {
@@ -20,16 +20,14 @@ pipeline {
                         // Build the Docker image
                         sh 'docker build -t myapp-go .'
                         
-                        // Log in to Docker Hub
-                        withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                        }
-                        
                         // Push the Docker image to Docker Hub
-                        sh 'docker push myapp-go'
+                        withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
+                            sh 'docker push myapp-go'
+                        }
                     }
                 }
             }
         }
     }
 }
+
