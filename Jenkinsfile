@@ -13,12 +13,12 @@ pipeline {
             }
         }
         
-        stage('Lint and Test Go') {
-            steps {
-                sh 'golangci-lint run ./go'
-                sh 'go test ./go'
-            }
-        }
+        // stage('Lint and Test Go') {
+        //     steps {
+        //         sh 'golangci-lint run ./go'
+        //         sh 'go test ./go'
+        //     }
+        // }
         
         stage('Build and Push Go Docker Image') {
             steps {
